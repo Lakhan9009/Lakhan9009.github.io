@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lakhan Waghmare | 3D Interactive Resume</title>
+    <title>Lakhan Waghmare | Senior Full Stack Developer | 3D Interactive Portfolio</title>
+    <!-- Font Awesome CDN for Tech Stack Icons -->
+    <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --accent-primary: #6366f1;
-            --accent-secondary: #a855f7;
-            --text-main: #f8fafc;
+            --bg-gradient: linear-gradient(135deg, #05070f 0%, #0b112c 50%, #1a0b2e 100%);
+            --card-bg: rgba(10, 15, 35, 0.45);
+            --card-border: rgba(99, 102, 241, 0.15);
+            --accent-cyan: #00f2fe;
+            --accent-purple: #9d4edd;
+            --accent-blue: #3a86ff;
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
         }
 
@@ -26,7 +29,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #0f172a;
+            background: #05070f;
             color: var(--text-main);
         }
 
@@ -39,31 +42,32 @@
             z-index: 1;
         }
 
-        /* Instructions Overlay */
+        /* Ambient Scanning Overlay */
         .instructions {
             position: absolute;
-            top: 20px;
+            top: 25px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 10;
-            background: rgba(15, 23, 42, 0.6);
-            padding: 10px 20px;
+            background: rgba(5, 7, 15, 0.8);
+            padding: 12px 24px;
             border-radius: 30px;
             border: 1px solid var(--card-border);
             pointer-events: none;
             text-align: center;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            backdrop-filter: blur(5px);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: var(--accent-cyan);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.15);
         }
 
-        /* 3D DOM Scene Container */
+        /* 3D Core Rendering Container */
         #scene-3d {
             position: absolute;
             width: 100%;
             height: 100%;
-            perspective: 1200px;
+            perspective: 1400px;
             transform-style: preserve-3d;
             z-index: 2;
             display: flex;
@@ -80,199 +84,214 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: transform 0.1s ease-out;
+            transition: transform 0.15s ease-out;
             pointer-events: auto;
         }
 
-        /* 3D Layout Cards */
+        /* 3D Glassmorphic Card Engine Layout */
         .resume-card {
             position: absolute;
-            width: 450px;
-            max-height: 550px;
+            width: 480px;
+            max-height: 560px;
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 25px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 
-                        inset 0 1px 0 rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 28px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 
+                        inset 0 1px 1px rgba(255, 255, 255, 0.05);
             transform-style: preserve-3d;
             overflow-y: auto;
             scrollbar-width: thin;
-            scrollbar-color: var(--accent-primary) transparent;
+            scrollbar-color: var(--accent-blue) transparent;
+            transition: border-color 0.4s, box-shadow 0.4s, background 0.4s;
         }
 
-        /* Scrollbar customization */
         .resume-card::-webkit-scrollbar { width: 4px; }
-        .resume-card::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 4px; }
+        .resume-card::-webkit-scrollbar-thumb { background: var(--accent-blue); border-radius: 4px; }
 
-        /* Card positioning in 3D Space */
-        .card-header    { transform: translate3d(0, 0, 200px); width: 500px; }
-        .card-summary   { transform: translate3d(-520px, -150px, -50px) rotateY(25deg); }
-        .card-skills    { transform: translate3d(-520px, 200px, 50px) rotateY(25deg); }
-        .card-experience { transform: translate3d(520px, -150px, -50px) rotateY(-25deg); }
-        .card-projects   { transform: translate3d(520px, 220px, 50px) rotateY(-25deg); }
-        .card-footer    { transform: translate3d(0, 340px, 100px); width: 600px; max-height: 150px;}
+        /* Spatial Coordinates Mapping matrix */
+        .card-header     { transform: translate3d(0, 0, 220px); width: 550px; border-color: rgba(0, 242, 254, 0.3); }
+        .card-summary    { transform: translate3d(-540px, -160px, 0px) rotateY(22deg); }
+        .card-skills     { transform: translate3d(-540px, 220px, 50px) rotateY(22deg); }
+        .card-experience { transform: translate3d(540px, -160px, 0px) rotateY(-22deg); }
+        .card-projects   { transform: translate3d(540px, 240px, 50px) rotateY(-22deg); }
+        .card-footer     { transform: translate3d(0, 360px, 120px); width: 650px; max-height: 180px; }
 
-        /* Typography & Content Layout */
+        /* Typography Subsystems */
         h1 {
-            font-size: 2.2rem;
-            background: linear-gradient(to right, #fff, #94a3b8);
+            font-size: 2.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 30%, var(--text-muted) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
         
         .subtitle {
-            color: var(--accent-primary);
+            color: var(--accent-cyan);
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 15px;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .meta-info {
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             color: var(--text-muted);
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .meta-info a {
-            color: var(--accent-secondary);
+            color: var(--accent-blue);
             text-decoration: none;
+            transition: color 0.2s;
         }
+        .meta-info a:hover { color: var(--accent-cyan); }
 
         h2 {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: #fff;
-            border-left: 3px solid var(--accent-secondary);
-            padding-left: 10px;
-            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-blue);
+            padding-left: 12px;
+            margin-bottom: 18px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         h3 {
-            font-size: 1rem;
-            color: var(--text-main);
-            margin-top: 10px;
+            font-size: 1.05rem;
+            color: #fff;
+            margin-top: 14px;
+            margin-bottom: 6px;
         }
 
         p, li {
-            font-size: 0.88rem;
-            line-height: 1.5;
+            font-size: 0.9rem;
+            line-height: 1.6;
             color: var(--text-muted);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         ul {
-            list-style-position: inside;
-            list-style-type: square;
+            list-style: none;
         }
 
         li {
-            margin-bottom: 6px;
-            text-indent: -12px;
-            padding-left: 12px;
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 8px;
         }
 
-        /* Grid structures inside cards */
+        li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        /* Tech Icon Integration Components */
         .skills-grid {
             display: grid;
             grid-template-columns: auto 1fr;
-            gap: 12px;
-            margin-top: 10px;
+            gap: 16px;
+            margin-top: 5px;
         }
 
         .skill-category {
-            font-weight: bold;
-            color: var(--accent-primary);
+            font-weight: 700;
+            color: var(--accent-cyan);
             font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding-top: 4px;
         }
 
         .tag-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
+            gap: 8px;
         }
 
         .tag {
-            background: rgba(99, 102, 241, 0.15);
-            border: 1px solid rgba(99, 102, 241, 0.3);
+            background: rgba(58, 134, 255, 0.08);
+            border: 1px solid rgba(58, 134, 255, 0.2);
             color: #fff;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
         }
+
+        .tag i {
+            font-size: 0.9rem;
+        }
+        
+        /* Icon Brand Color Map */
+        .fa-java { color: #f89820; }
+        .fa-angular { color: #dd0031; }
+        .fa-js { color: #f7df1e; }
+        .fa-html5 { color: #e34c26; }
+        .fa-css3-alt { color: #264de4; }
+        .fa-database { color: #00758f; }
+        .fa-git-alt { color: #f05032; }
+        .fa-docker { color: #2496ed; }
+        .fa-python { color: #3776ab; }
 
         .footer-flex {
             display: flex;
             justify-content: space-between;
-            gap: 15px;
+            gap: 20px;
         }
-
         .footer-col { flex: 1; }
 
-        /* Highlight elements inside 3D transforms */
+        /* Mouse hover interaction states within spatial perspective grid */
         .resume-card:hover {
-            border-color: var(--accent-primary);
-            box-shadow: 0 30px 60px rgba(99, 102, 241, 0.15), inset 0 1px 0 rgba(255,255,255,0.2);
-            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 30px 60px rgba(0, 242, 254, 0.12), inset 0 1px 1px rgba(255,255,255,0.1);
+            background: rgba(15, 23, 42, 0.75);
         }
     </style>
 </head>
 <body>
 
-    <div class="instructions">MOVE MOUSE TO ROTATE SCENE IN 3D</div>
+    <div class="instructions">‹ PAN MOUSE TO MOVE 3D VIEWPORT ›</div>
     
-    <!-- 3D Particle Background WebGL canvas -->
+    <!-- Background Starfield Assembly -->
     <div id="canvas-container"></div>
 
-    <!-- Interactive HTML Elements transformed into 3D Space -->
+    <!-- Interactive Layer Core Container -->
     <div id="scene-3d">
         <div id="space-rig">
 
-            <!-- MAIN HEADER CARD -->
+            <!-- MODULE 1: HEADER & CORE TARGET ARCHITECTURE -->
             <div class="resume-card card-header">
                 <h1>LAKHAN WAGHMARE</h1>
-                <div class="subtitle">Senior Full Stack Java Developer</div>
-                <div class="meta-info">📍 Pune, Maharashtra, India</div>
-                <div class="meta-info">🔗 <a href="https://linkedin.com" target="_blank">linkedin.com/in/lakhan-waghmare-7a353822b</a></div>
+                <div class="subtitle"><i class="fas fa-laptop-code"></i> Senior Full Stack Java Developer</div>
+                <div class="meta-info"><i class="fas fa-map-marker-alt" style="color:var(--accent-cyan)"></i> Pune, Maharashtra, India</div>
+                <div class="meta-info"><i class="fab fa-linkedin" style="color:var(--accent-blue)"></i> <a href="https://linkedin.com" target="_blank">://linkedin.com</a></div>
             </div>
 
-            <!-- SUMMARY CARD -->
+            <!-- MODULE 2: SYSTEM SUMMARY -->
             <div class="resume-card card-summary">
                 <h2>Professional Summary</h2>
-                <p>Results-driven Senior Full Stack Java Developer with approximately 3.8 years of hands-on experience in designing and delivering enterprise-grade web and mobile applications.</p>
-                <p>Proficient in Java (Spring Boot), Angular, Ionic, and MySQL, with a strong focus on scalable architecture and clean code. Currently contributing to a large-scale College Management System (CMS) ERP at TH Systems Private Limited.</p>
+                <p>Results-driven Senior Full Stack Java Developer with approximately 3.8 years of technical expertise engineering enterprise web architectures and high-performance cross-platform software systems.</p>
+                <p>Specialized in configuring scalable backend REST microservices via Java (Spring Boot) and developing responsive interfaces using Angular and Ionic. Expert focus on implementing clean code paradigms, robust object-relational mapping patterns, and optimizing complex database transaction layers.</p>
             </div>
 
-            <!-- EXPERIENCE CARD -->
+            <!-- MODULE 3: PRODUCTION EXPERIENCE MATRIX -->
             <div class="resume-card card-experience">
                 <h2>Work Experience</h2>
-                <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
-                    <strong>TH Systems Private Limited</strong>
-                    <span style="color:var(--accent-secondary); font-size:0.85rem;">2024 – Present</span>
-                </div>
-                <div class="subtitle" style="font-size:0.85rem; margin-bottom:10px;">Senior Full Stack Java Developer</div>
-                <ul>
-                    <li>Designing and developing enterprise modules for a College Management System (CMS) ERP platform.</li>
-                    <li>Building RESTful APIs using Spring Boot and integrating with Angular frontend.</li>
-                    <li>Developing and maintaining cross-platform mobile apps using Ionic framework.</li>
-                    <li>Collaborating with cross-functional teams to deliver scalable web and mobile solutions.</li>
-                    <li>Mentoring junior developers and conducting code reviews to maintain code quality.</li>
-                </ul>
-            </div>
-
-            <!-- PROJECTS CARD -->
-            <div class="resume-card card-projects">
-                <h2>Key Projects</h2>
-                <h3>College Management System (CMS) – ERP</h3>
-                <p style="font-style: italic; font-size: 0.8rem;">A comprehensive multi-module ERP system for educational institutions.</p>
-                <ul>
-                    <li><strong>ESCM:</strong> Supplier/Vendor Management System. End-to-end procurement workflow, onboarding, and approval steps.</li>
-                    <li><strong>Student Relationship Management:</strong> Lifecycle tracking and engagement analytics.</li>
-                    <li><strong>eLMS & E-Class App:</strong> Content delivery, real-time virtual classroom scheduling, and attendance tracking.</li>
